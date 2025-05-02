@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Utilitários para Discord - Gere convites personalizados para seu servidor.">
+    <meta name="keywords" content="discord, utilitários, convites, gerador">
+    <meta name="robots" content="index, follow">
+    <title>Utilitários Discord - Invite Generator</title>
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Boxicons CDN -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <!-- SEO Dinâmico -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const path = window.location.pathname;
+            const pageTitle = path === "/" || path === "/index.html" ? "Home" : path.replace("/", "").replace(".html", "").replace("-", " ");
+            document.title = `Utilitários Discord - ${pageTitle}`;
+            document.querySelector('meta[name="description"]').content = `Utilitários para Discord - ${pageTitle}. Ferramentas práticas para seu servidor.`;
+        });
+    </script>
+</head>
+<body class="bg-[#36393F] text-white font-sans min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-[#2F3136] p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl sm:text-2xl font-bold">Utilitários Discord</h1>
+            <div class="hidden md:flex space-x-4">
+                <a href="index.html" class="hover:text-[#5865F2]">Home</a>
+                <a href="embed_builder.html" class="hover:text-[#5865F2]">Embed Builder</a>
+                <a href="invite_generator.html" class="hover:text-[#5865F2]">Invite Generator</a>
+            </div>
+            <!-- Menu Hamburguer -->
+            <button id="menu-toggle" class="md:hidden text-2xl focus:outline-none">
+                <i class='bx bx-menu'></i>
+            </button>
+        </div>
+        <!-- Menu Mobile -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[#2F3136] p-4">
+            <a href="index.html" class="block py-2 hover:text-[#5865F2]">Home</a>
+            <a href="embed_builder.html" class="block py-2 hover:text-[#5865F2]">Embed Builder</a>
+            <a href="invite_generator.html" class="block py-2 hover:text-[#5865F2]">Invite Generator</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 sm:p-6 flex-grow">
+        <section class="bg-[#2F3136] rounded-lg p-4 sm:p-6 shadow-md">
+            <h2 class="text-2xl sm:text-3xl font-semibold mb-4 flex items-center">
+                <i class='bx bx-link mr-2 text-3xl'></i> Gerador de Convites
+            </h2>
+            <p class="text-[#B9BBBE] mb-6 text-sm sm:text-base">Crie convites personalizados para seu servidor Discord com opções de expiração e limite de usos.</p>
+
+            <!-- Formulário de Convite -->
+            <div class="grid grid-cols-1 gap-4">
+                <div>
+                    <label class="block mb-2 text-[#B9BBBE] text-sm sm:text-base">Token do Bot</label>
+                    <input id="botToken" type="password" class="w-full p-2 bg-[#36393F] rounded focus:outline-none focus:ring-2 focus:ring-[#5865F2] text-sm sm:text-base" placeholder="Insira o token do seu bot">
+                </div>
+                <div>
+                    <label class="block mb-2 text-[#B9BBBE] text-sm sm:text-base">ID do Canal</label>
+                    <input id="channelId" type="text" class="w-full p-2 bg-[#36393F] rounded focus:outline-none focus:ring-2 focus:ring-[#5865F2] text-sm sm:text-base" placeholder="ID do canal onde o convite será criado">
+                </div>
+                <div>
+                    <label class="block mb-2 text-[#B9BBBE] text-sm sm:text-base">Duração (segundos, 0 = permanente)</label>
+                    <input id="maxAge" type="number" min="0" class="w-full p-2 bg-[#36393F] rounded focus:outline-none focus:ring-2 focus:ring-[#5865F2] text-sm sm:text-base" placeholder="86400 (1 dia)">
+                </div>
+                <div>
+                    <label class="block mb-2 text-[#B9BBBE] text-sm sm:text-base">Máximo de Usos (0 = ilimitado)</label>
+                    <input id="maxUses" type="number" min="0" class="w-full p-2 bg-[#36393F] rounded focus:outline-none focus:ring-2 focus:ring-[#5865F2] text-sm sm:text-base" placeholder="10">
+                </div>
+            </div>
+
+            <button id="generateInvite" class="mt-6 bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold py-2 px-4 rounded flex items-center text-sm sm:text-base">
+                <i class='bx bx-link-alt mr-2'></i> Gerar Convite
+            </button>
+
+            <!-- Resultado -->
+            <div id="inviteResult" class="mt-4 hidden">
+                <p class="text-[#B9BBBE] text-sm sm:text-base">Seu convite:</p>
+                <div class="flex items-center space-x-2">
+                    <input id="inviteLink" type="text" class="w-full p-2 bg-[#36393F] rounded text-sm sm:text-base" readonly>
+                    <button id="copyLink" class="bg-[#5865F2] hover:bg-[#4752C4] text-white p-2 rounded">
+                        <i class='bx bx-copy'></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#2F3136] p-4 text-center text-[#B9BBBE] text-sm">
+        <p>© 2025 Utilitários Discord. Hospedado com GitHub e Cloudflare Pages.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Menu Mobile
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Gerar Convite
+        document.getElementById("generateInvite").addEventListener("click", async () => {
+            const botToken = document.getElementById("botToken").value;
+            const channelId = document.getElementById("channelId").value;
+            const maxAge = document.getElementById("maxAge").value || 86400;
+            const maxUses = document.getElementById("maxUses").value || 0;
+
+            if (!botToken || !channelId) {
+                alert("Por favor, insira o token do bot e o ID do canal!");
+                return;
+            }
+
+            try {
+                const response = await fetch(`https://discord.com/api/v10/channels/${channelId}/invites`, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bot ${botToken}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        max_age: parseInt(maxAge),
+                        max_uses: parseInt(maxUses),
+                        temporary: false
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const inviteUrl = `https://discord.gg/${data.code}`;
+                    const inviteResult = document.getElementById("inviteResult");
+                    const inviteLink = document.getElementById("inviteLink");
+                    inviteLink.value = inviteUrl;
+                    inviteResult.classList.remove("hidden");
+                } else {
+                    const error = await response.json();
+                    alert(`Erro ao gerar convite: ${error.message}`);
+                }
+            } catch (error) {
+                alert("Erro: " + error.message);
+            }
+        });
+
+        // Copiar Link
+        document.getElementById("copyLink").addEventListener("click", () => {
+            const inviteLink = document.getElementById("inviteLink");
+            inviteLink.select();
+            navigator.clipboard.writeText(inviteLink.value);
+            alert("Link copiado para a área de transferência!");
+        });
+    </script>
+</body>
+</html>
