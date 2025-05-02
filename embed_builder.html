@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Utilitários para Discord - Crie embeds personalizadas e envie via webhook.">
+    <meta name="keywords" content="discord, utilitários, embeds, webhook">
+    <meta name="robots" content="index, follow">
+    <title>Utilitários Discord - Embed Builder</title>
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Boxicons CDN -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <!-- SEO Dinâmico -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const path = window.location.pathname;
+            const pageTitle = path === "/" || path === "/index.html" ? "Home" : path.replace("/", "").replace(".html", "").replace("-", " ");
+            document.title = `Utilitários Discord - ${pageTitle}`;
+            document.querySelector('meta[name="description"]').content = `Utilitários para Discord - ${pageTitle}. Ferramentas práticas para seu servidor.`;
+        });
+    </script>
+</head>
+<body class="bg-[#36393F] text-white font-sans min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-[#2F3136] p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl sm:text-2xl font-bold">Utilitários Discord</h1>
+            <div class="hidden md:flex space-x-4">
+                <a href="index.html" class="hover:text-[#5865F2]">Home</a>
+                <a href="embed_builder.html" class="hover:text-[#5865F2]">Embed Builder</a>
+            </div>
+            <!-- Menu Hamburguer -->
+            <button id="menu-toggle" class="md:hidden text-2xl focus:outline-none">
+                <i class='bx bx-menu'></i>
+            </button>
+        </div>
+        <!-- Menu Mobile -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[#2F3136] p-4">
+            <a href="index.html" class="block py-2 hover:text-[#5865F2]">Home</a>
+            <a href="embed_builder.html" class="block py-2 hover:text-[#5865F2]">Embed Builder</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 sm:p-6 flex-grow">
+        <section class="bg-[#2F3136] rounded-lg p-4 sm:p-6 shadow-md">
+            <h2 class="text-2xl sm:text-3xl font-semibold mb-4 flex items-center">
+                <i class='bx bx-message-square-detail mr-2 text-3xl'></i> Embed Builder
+            </h2>
+            <p class="text-[#B9BBBE] mb-6 text-sm sm:text-base">Crie embeds personalizadas e envie diretamente para seu Discord via webhook.</p>
+
+            <!-- Formulário de Embed -->
+            <div class="grid grid-cols-1 gap-4">
+                <div>
+                    <label class="block mb-2 text-[#B9BBBE] text-sm sm:text-base">Webhook URL</label>
+                    <input id="webhookUrl" type="url" class="w-full p-2 bg-[#36393F] rounded focus:outline-none focus:ring-2 focus:ring-[#5865F2] text-sm sm:text-base" placeholder="https://discord.com/api/webhooks/...">
+                </div>
+                <div>
+                    <label class="block mb-2 text-[#B9BBBE] text-sm sm:text-base">Título do Embed</label>
+                    <input id="embedTitle" type="text" class="w-full p-2 bg-[#36393F] rounded focus:outline-none focus:ring-2 focus:ring-[#5865F2] text-sm sm:text-base" placeholder="Título">
+                </div>
+                <div>
+                    <label class="block mb-2 text-[#B9BBBE] text-sm sm:text-base">Descrição</label>
+                    <textarea id="embedDescription" class="w-full p-2 bg-[#36393F] rounded focus:outline-none focus:ring-2 focus:ring-[#5865F2] text-sm sm:text-base" rows="4" placeholder="Descrição do embed"></textarea>
+                </div>
+                <div>
+                    <label class="block mb-2 text-[#B9BBBE] text-sm sm:text-base">Cor (Hex)</label>
+                    <input id="embedColor" type="text" class="w-full p-2 bg-[#36393F] rounded focus:outline-none focus:ring-2 focus:ring-[#5865F2] text-sm sm:text-base" placeholder="#5865F2">
+                </div>
+                <div>
+                    <label class="block mb-2 text-[#B9BBBE] text-sm sm:text-base">URL da Imagem (opcional)</label>
+                    <input id="embedImage" type="url" class="w-full p-2 bg-[#36393F] rounded focus:outline-none focus:ring-2 focus:ring-[#5865F2] text-sm sm:text-base" placeholder="https://exemplo.com/imagem.png">
+                </div>
+            </div>
+
+            <button id="sendEmbed" class="mt-6 bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold py-2 px-4 rounded flex items-center text-sm sm:text-base">
+                <i class='bx bx-send mr-2'></i> Enviar Embed
+            </button>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#2F3136] p-4 text-center text-[#B9BBBE] text-sm">
+        <p>© 2025 Utilitários Discord. Hospedado com GitHub e Cloudflare Pages.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Menu Mobile
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Enviar Embed
+        document.getElementById("sendEmbed").addEventListener("click", async () => {
+            const webhookUrl = document.getElementById("webhookUrl").value;
+            const title = document.getElementById("embedTitle").value;
+            const description = document.getElementById("embedDescription").value;
+            const color = parseInt(document.getElementById("embedColor").value.replace("#", ""), 16) || 5793266;
+            const imageUrl = document.getElementById("embedImage").value;
+
+            if (!webhookUrl) {
+                alert("Por favor, insira uma URL de webhook válida!");
+                return;
+            }
+
+            const embed = {
+                title: title || "Embed Personalizada",
+                description: description || "Criado com Utilitários Discord",
+                color: color,
+                timestamp: new Date().toISOString()
+            };
+
+            if (imageUrl) embed.image = { url: imageUrl };
+
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ embeds: [embed] })
+                });
+
+                if (response.ok) {
+                    alert("Embed enviado com sucesso!");
+                } else {
+                    alert("Erro ao enviar embed. Verifique a URL do webhook.");
+                }
+            } catch (error) {
+                alert("Erro: " + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
