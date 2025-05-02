@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Utilitários para Discord - Ferramentas práticas para seu servidor.">
+    <meta name="keywords" content="discord, utilitários, ferramentas, embed builder">
+    <meta name="robots" content="index, follow">
+    <title>Utilitários Discord - Home</title>
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Boxicons CDN -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <!-- SEO Dinâmico -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const path = window.location.pathname;
+            const pageTitle = path === "/" || path === "/index.html" ? "Home" : path.replace("/", "").replace(".html", "").replace("-", " ");
+            document.title = `Utilitários Discord - ${pageTitle}`;
+            document.querySelector('meta[name="description"]').content = `Utilitários para Discord - ${pageTitle}. Ferramentas práticas para seu servidor.`;
+        });
+    </script>
+</head>
+<body class="bg-[#36393F] text-white font-sans min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-[#2F3136] p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl sm:text-2xl font-bold">Utilitários Discord</h1>
+            <div class="hidden md:flex space-x-4">
+                <a href="index.html" class="hover:text-[#5865F2]">Home</a>
+                <a href="embed_builder.html" class="hover:text-[#5865F2]">Embed Builder</a>
+            </div>
+            <!-- Menu Hamburguer -->
+            <button id="menu-toggle" class="md:hidden text-2xl focus:outline-none">
+                <i class='bx bx-menu'></i>
+            </button>
+        </div>
+        <!-- Menu Mobile -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[#2F3136] p-4">
+            <a href="index.html" class="block py-2 hover:text-[#5865F2]">Home</a>
+            <a href="embed_builder.html" class="block py-2 hover:text-[#5865F2]">Embed Builder</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 sm:p-6 flex-grow">
+        <section class="bg-[#2F3136] rounded-lg p-4 sm:p-6 shadow-md text-center">
+            <h2 class="text-2xl sm:text-3xl font-semibold mb-4 flex items-center justify-center">
+                <i class='bx bx-bot mr-2 text-3xl'></i> Bem-vindo aos Utilitários Discord
+            </h2>
+            <p class="text-[#B9BBBE] mb-6 text-sm sm:text-base">Ferramentas práticas para melhorar seu servidor Discord. Explore nossas funcionalidades!</p>
+            <a href="embed_builder.html" class="bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold py-2 px-4 rounded inline-flex items-center text-sm sm:text-base">
+                <i class='bx bx-message-square-detail mr-2'></i> Criar Embed
+            </a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#2F3136] p-4 text-center text-[#B9BBBE] text-sm">
+        <p>© 2025 Utilitários Discord. Hospedado com GitHub e Cloudflare Pages.</p>
+    </footer>
+
+    <!-- Script para Menu Mobile -->
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
